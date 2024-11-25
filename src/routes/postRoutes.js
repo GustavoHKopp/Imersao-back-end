@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import cors from 'cors';
-import { listarPosts, postarNovoPost, uploadImagem, atualizaNovoPost } from '../controllers/postsController.js';
+import { getPosts, publicNewPost, uploadImage, updateNewPost } from '../controllers/postsController.js';
 
 const corsOptions = {
     origin: 'http://localhost:8000',
@@ -26,8 +26,8 @@ export default function routes(app) {
     app.use(express.json());
     app.use(cors(corsOptions))
 
-    app.get('/posts', listarPosts);
-    app.post('/posts', postarNovoPost);
-    app.post('/upload', upload.single('imagem'), uploadImagem);
-    app.put('/upload/:id', atualizaNovoPost);
+    app.get('/posts', getPosts);
+    app.post('/posts', publicNewPost);
+    app.post('/upload', upload.single('imagem'), uploadImage);
+    app.put('/upload/:id', updateNewPost);
 };

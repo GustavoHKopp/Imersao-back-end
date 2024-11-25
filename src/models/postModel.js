@@ -1,30 +1,30 @@
 import 'dotenv/config';
 import { ObjectId } from 'mongodb';
-import conectarAoBanco from '../confg/dbConfig.js'
+import createDBConnection from '../confg/dbConfig.js'
 
-const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
+const conexao = await createDBConnection(process.env.STRING_CONEXAO);
 
-async function conectarColecaoPosts() {
+async function connectCollection() {
     const db = conexao.db('imersao-instabytes');
     const posts = db.collection('posts');
 
     return posts
 }
 
-export async function getTodosPost() {
-    const colecao = await conectarColecaoPosts()
+export async function getAllPosts() {
+    const colecao = await connectCollection()
 
     return colecao.find().toArray();
 }
 
-export async function criarPost(novoPost) {
-    const colecao = await conectarColecaoPosts();
+export async function createPost(novoPost) {
+    const colecao = await connectCollection();
 
     return colecao.insertOne(novoPost);
 }
 
-export async function atualizarPost(id, post) {
-    const colecao = await conectarColecaoPosts();
+export async function updatePost(id, post) {
+    const colecao = await connectCollection();
 
     const objId = ObjectId.createFromHexString(id)
     return colecao.updateOne({_id: new ObjectId(objId)}, {$set: post});
